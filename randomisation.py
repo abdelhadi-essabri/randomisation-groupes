@@ -66,5 +66,3 @@ st.write("### Liste des participants")
 st.dataframe(df)
 
 
-
-
