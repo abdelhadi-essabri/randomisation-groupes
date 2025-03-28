@@ -72,7 +72,7 @@ if st.button("Assigner le participant"):
 # Affichage des données
 st.write("### Liste des participants")
 st.dataframe(df)
-
+# ####
 # Bouton pour télécharger le fichier Excel
 st.download_button(
     label="Télécharger le fichier Excel",
