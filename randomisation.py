@@ -66,44 +66,4 @@ st.write("### Liste des participants")
 st.dataframe(df)
 
 
-exit()
-import random
-
-def assign_group(sexe, age, assigned_participants):
-    """
-    Assigne un participant à un groupe (A ou B) de manière équilibrée en fonction du sexe et de la tranche d'âge.
-    """
-    tranche_age = '18-35' if age <= 35 else '36-65'
-    
-    # Clé pour identifier la catégorie
-    category_key = (sexe, tranche_age)
-    
-    # Initialiser la répartition si elle n'existe pas encore
-    if category_key not in assigned_participants:
-        assigned_participants[category_key] = {'A': 0, 'B': 0}
-    
-    # Assigner au groupe le moins rempli dans la catégorie
-    if assigned_participants[category_key]['A'] <= assigned_participants[category_key]['B']:
-        assigned_participants[category_key]['A'] += 1
-        return "A"
-    else:
-        assigned_participants[category_key]['B'] += 1
-        return "B"
-
-# Exemple d'utilisation
-def main():
-    assigned_participants = {}  # Dictionnaire pour suivre la répartition
-    
-    while True:
-        sexe = input("Entrez le sexe du participant (H/F) : ").strip().upper()
-        age = int(input("Entrez l'âge du participant : "))
-        groupe = assign_group(sexe, age, assigned_participants)
-        print(f"Le participant ({sexe}, {age} ans) est assigné au groupe {groupe}.")
-        
-        cont = input("Voulez-vous ajouter un autre participant ? (O/N) : ").strip().upper()
-        if cont != 'O':
-            break
-
-if __name__ == "__main__":
-    main()
 
