@@ -1,6 +1,7 @@
 import pandas as pd
 import streamlit as st
 import os
+import tempfile
 
 def assign_group(sexe, age, assigned_participants):
     """
@@ -37,7 +38,10 @@ def save_data(df, filename):
 # Interface Streamlit
 st.title("Assignation aléatoire des participants")
 
-data_file = "participants.xlsx"
+# Utilisation d'un fichier temporaire pour Streamlit Cloud
+with tempfile.NamedTemporaryFile(delete=False, suffix=".xlsx") as tmp_file:
+    data_file = tmp_file.name  # Ceci crée un fichier temporaire
+
 df = load_data(data_file)
 
 # Initialisation des participants assignés
@@ -65,5 +69,10 @@ if st.button("Assigner le participant"):
 st.write("### Liste des participants")
 st.dataframe(df)
 
-
-
+# Bouton pour télécharger le fichier Excel
+st.download_button(
+    label="Télécharger le fichier Excel",
+    data=df.to_excel(index=False),  # Convertir le DataFrame en bytes
+    file_name="participants_assignes.xlsx",
+    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+)
