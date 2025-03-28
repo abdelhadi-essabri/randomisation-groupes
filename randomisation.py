@@ -1,7 +1,6 @@
 import pandas as pd
 import streamlit as st
 import os
-import tempfile
 
 def assign_group(sexe, age, assigned_participants):
     """
@@ -27,25 +26,18 @@ def assign_group(sexe, age, assigned_participants):
 def load_data(filename):
     """Charge le fichier Excel s'il existe, sinon crée un DataFrame vide."""
     if os.path.exists(filename):
-        return pd.read_excel(filename, engine="openpyxl")  # Spécifier l'engine 'openpyxl'
+        return pd.read_excel(filename)
     else:
         return pd.DataFrame(columns=["ID", "Sexe", "Age", "Tranche_Age", "Groupe"])
 
 def save_data(df, filename):
     """Sauvegarde les données dans un fichier Excel."""
-    df.to_excel(filename, index=False, engine="openpyxl")  # Spécifier l'engine 'openpyxl'
+    df.to_excel(filename, index=False)
 
 # Interface Streamlit
 st.title("Assignation aléatoire des participants")
 
-# Création d'un fichier temporaire pour Streamlit Cloud
-with tempfile.NamedTemporaryFile(delete=False, suffix=".xlsx") as tmp_file:
-    data_file = tmp_file.name  # Créer un fichier temporaire pour stocker le fichier Excel
-    # Vérification si le fichier existe déjà et création d'un DataFrame vide si nécessaire
-    if not os.path.exists(data_file):
-        df = pd.DataFrame(columns=["ID", "Sexe", "Age", "Tranche_Age", "Groupe"])
-        save_data(df, data_file)  # Sauvegarder ce fichier vide si c'est la première fois
-
+data_file = "participants.xlsx"
 df = load_data(data_file)
 
 # Initialisation des participants assignés
@@ -73,10 +65,6 @@ if st.button("Assigner le participant"):
 st.write("### Liste des participants")
 st.dataframe(df)
 
-# Bouton pour télécharger le fichier Excel
-st.download_button(
-    label="Télécharger le fichier Excel",
-    data=df.to_excel(index=False, engine="openpyxl"),  # Spécifier l'engine 'openpyxl'
-    file_name="participants_assignes.xlsx",
-    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-)
+
+
+
