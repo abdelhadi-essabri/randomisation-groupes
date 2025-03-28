@@ -38,9 +38,13 @@ def save_data(df, filename):
 # Interface Streamlit
 st.title("Assignation aléatoire des participants")
 
-# Utilisation d'un fichier temporaire pour Streamlit Cloud
+# Création d'un fichier temporaire pour Streamlit Cloud
 with tempfile.NamedTemporaryFile(delete=False, suffix=".xlsx") as tmp_file:
-    data_file = tmp_file.name  # Ceci crée un fichier temporaire
+    data_file = tmp_file.name  # Créer un fichier temporaire pour stocker le fichier Excel
+    # Vérification si le fichier existe déjà et création d'un DataFrame vide si nécessaire
+    if not os.path.exists(data_file):
+        df = pd.DataFrame(columns=["ID", "Sexe", "Age", "Tranche_Age", "Groupe"])
+        save_data(df, data_file)  # Sauvegarder ce fichier vide si c'est la première fois
 
 df = load_data(data_file)
 
