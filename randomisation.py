@@ -27,13 +27,13 @@ def assign_group(sexe, age, assigned_participants):
 def load_data(filename):
     """Charge le fichier Excel s'il existe, sinon crée un DataFrame vide."""
     if os.path.exists(filename):
-        return pd.read_excel(filename)
+        return pd.read_excel(filename, engine="openpyxl")  # Spécifier l'engine 'openpyxl'
     else:
         return pd.DataFrame(columns=["ID", "Sexe", "Age", "Tranche_Age", "Groupe"])
 
 def save_data(df, filename):
     """Sauvegarde les données dans un fichier Excel."""
-    df.to_excel(filename, index=False)
+    df.to_excel(filename, index=False, engine="openpyxl")  # Spécifier l'engine 'openpyxl'
 
 # Interface Streamlit
 st.title("Assignation aléatoire des participants")
@@ -72,11 +72,11 @@ if st.button("Assigner le participant"):
 # Affichage des données
 st.write("### Liste des participants")
 st.dataframe(df)
-# ####
+
 # Bouton pour télécharger le fichier Excel
 st.download_button(
     label="Télécharger le fichier Excel",
-    data=df.to_excel(index=False),  # Convertir le DataFrame en bytes
+    data=df.to_excel(index=False, engine="openpyxl"),  # Spécifier l'engine 'openpyxl'
     file_name="participants_assignes.xlsx",
     mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
 )
