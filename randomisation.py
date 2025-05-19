@@ -65,4 +65,14 @@ if st.button("Assigner le participant"):
 st.write("### Liste des participants")
 st.dataframe(df)
 
+# Fonction de réinitialisation
+def reset_data(filename):
+    df_empty = pd.DataFrame(columns=["ID", "Sexe", "Age", "Tranche_Age", "Groupe"])
+    df_empty.to_excel(filename, index=False)
 
+# Bouton de réinitialisation
+if st.button("🗑️ Réinitialiser les participants"):
+    reset_data(data_file)
+    df = load_data(data_file)
+    st.success("Tous les participants ont été supprimés.")
+    st.rerun()
